@@ -1,15 +1,15 @@
 #include <stdio.h>
 
 // Função para imprimir o vetor
-void imprimirVetor(int v[], int tamanho) {
+void imprimirVetor(int vetor[], int tamanho) {
     for (int i = 0; i < tamanho; i++) {
-        printf("%d ", v[i]);
+        printf("%d|", vetor[i]);
     }
     printf("\n");
 }
 
 // Função que junta as duas partes (intercalação)
-void intercalar(int v[], int inicio, int meio, int fim) {
+void intercalar(int vetor[], int inicio, int meio, int fim) {
     int i, j, k;
     int n1 = meio - inicio + 1; // Tamanho da metade esquerda
     int n2 = fim - meio;        // Tamanho da metade direita
@@ -19,9 +19,9 @@ void intercalar(int v[], int inicio, int meio, int fim) {
 
     // Copia os dados para os vetores temporários
     for (i = 0; i < n1; i++)
-        esquerda[i] = v[inicio + i];
+        esquerda[i] = vetor[inicio + i];
     for (j = 0; j < n2; j++)
-        direita[j] = v[meio + 1 + j];
+        direita[j] = vetor[meio + 1 + j];
 
     // Índices iniciais dos sub-vetores e do vetor principal
     i = 0; 
@@ -31,10 +31,10 @@ void intercalar(int v[], int inicio, int meio, int fim) {
     // Compara e ordena de volta no vetor principal
     while (i < n1 && j < n2) {
         if (esquerda[i] <= direita[j]) {
-            v[k] = esquerda[i];
+            vetor[k] = esquerda[i];
             i++;
         } else {
-            v[k] = direita[j];
+            vetor[k] = direita[j];
             j++;
         }
         k++;
@@ -42,46 +42,42 @@ void intercalar(int v[], int inicio, int meio, int fim) {
 
     // Se sobrarem elementos na esquerda, eles são copiados
     while (i < n1) {
-        v[k] = esquerda[i];
+        vetor[k] = esquerda[i];
         i++;
         k++;
     }
 
     // Se sobrarem elementos na direita, eles são copiados
     while (j < n2) {
-        v[k] = direita[j];
+        vetor[k] = direita[j];
         j++;
         k++;
     }
 }
 
 // Função principal do Merge Sort
-void mergeSort(int v[], int inicio, int fim) {
+void mergeSort(int vetor[], int inicio, int fim) {
     if (inicio < fim) {
     
         // Encontra o ponto médio para evitar overflow em vetores grandes
         int meio = inicio + (fim - inicio) / 2;
 
-        mergeSort(v, inicio, meio);
-        mergeSort(v, meio + 1, fim);
+        mergeSort(vetor, inicio, meio);
+        mergeSort(vetor, meio + 1, fim);
 
         // Une as partes ordenadas
-        intercalar(v, inicio, meio, fim);
+        intercalar(vetor, inicio, meio, fim);
     }
 }
 
 int main() {
     
-    int meuVetor[10] = {38, 27, 43, 3, 9, 82, 10, 15, 22, 5};
-    int tamanho = 10;
+    int meuVetor[] = {50, 70, 30, 40, 20, 80, 5, 60, 90, 10};
+    int tam = sizeof(meuVetor)/sizeof(meuVetor[0]);
 
-    printf("Vetor Original: ");
-    imprimirVetor(meuVetor, tamanho);
-
-    mergeSort(meuVetor, 0, tamanho - 1);
-
-    printf("Vetor Ordenado: ");
-    imprimirVetor(meuVetor, tamanho);
+    imprimirVetor(meuVetor, tam);
+    mergeSort(meuVetor, 0, tam - 1);
+    imprimirVetor(meuVetor, tam);
 
     return 0;
 }
